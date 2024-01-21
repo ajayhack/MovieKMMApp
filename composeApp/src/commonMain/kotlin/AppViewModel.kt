@@ -1,4 +1,3 @@
-import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -8,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class AppViewModel : ViewModel() {
+class AppViewModel {
     private val popularMovieStreamData = MutableStateFlow<MutableList<Popular>?>(mutableListOf())
     val streamData = popularMovieStreamData.asStateFlow()
     private var listOfPopularMovies : MutableList<Popular> ? = null
@@ -18,11 +17,13 @@ class AppViewModel : ViewModel() {
         }
     }
     
-    fun getPopularMovies() : MutableList<Popular>? {
-        viewModelScope.launch {
+    suspend fun getPopularMovies() : MutableList<Popular>? {
+        listOfPopularMovies = fetchPopularMovies().results
+        popularMovieStreamData.value = listOfPopularMovies
+        /*viewModelScope.launch {
             listOfPopularMovies = fetchPopularMovies().results
             popularMovieStreamData.value = listOfPopularMovies
-        }
+        }*/
         return listOfPopularMovies
     }
 
@@ -31,7 +32,7 @@ class AppViewModel : ViewModel() {
             .get(TMDBUrl)
             .body<PopularMovies>()
     
-    override fun onCleared() {
+   /* override fun onCleared() {
         httpClient.close()
-    }
+    }*/
 }

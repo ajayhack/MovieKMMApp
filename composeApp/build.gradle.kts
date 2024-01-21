@@ -62,8 +62,8 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.moko.mvvm.core)
-            implementation(libs.moko.mvvm.compose)
+            //implementation(libs.moko.mvvm.core)
+            //implementation(libs.moko.mvvm.compose)
             implementation(libs.kamel)
             implementation("co.touchlab:kermit:2.0.2")
         }
